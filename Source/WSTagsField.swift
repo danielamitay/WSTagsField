@@ -502,7 +502,9 @@ open class WSTagsField: UIScrollView {
         let nextIndex = tagViews.index(after: selectedIndex)
         if nextIndex < tagViews.count {
             tagViews[selectedIndex].selected = false
+            onDidUnselectTagView?(self, tagViews[selectedIndex])
             tagViews[nextIndex].selected = true
+            onDidSelectTagView?(self, tagViews[nextIndex])
         }
         else {
             textField.becomeFirstResponder()
@@ -517,7 +519,9 @@ open class WSTagsField: UIScrollView {
         let prevIndex = tagViews.index(before: selectedIndex)
         if prevIndex >= 0 {
             tagViews[selectedIndex].selected = false
+            onDidUnselectTagView?(self, tagViews[selectedIndex])
             tagViews[prevIndex].selected = true
+            onDidSelectTagView?(self, tagViews[prevIndex])
         }
     }
 
