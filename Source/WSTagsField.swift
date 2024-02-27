@@ -767,7 +767,11 @@ extension WSTagsField {
         let newIntrinsicContentHeight = intrinsicContentSize.height
 
         if constraints.isEmpty {
-            frame.size.height = newIntrinsicContentHeight.rounded()
+            let oldHeight = frame.size.height
+            let newHeight = newIntrinsicContentHeight.rounded()
+            if abs(oldHeight - newHeight) > .ulpOfOne {
+                frame.size.height = newHeight
+            }
         }
 
         if oldIntrinsicContentHeight != newIntrinsicContentHeight {
