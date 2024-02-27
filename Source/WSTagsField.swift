@@ -532,7 +532,7 @@ open class WSTagsField: UIScrollView {
         }
 
         tagView.selected = true
-        tagViews.filter { $0 != tagView }.forEach {
+        tagViews.filter { $0 != tagView && $0.selected }.forEach {
             $0.selected = false
             onDidUnselectTagView?(self, $0)
         }
@@ -541,7 +541,7 @@ open class WSTagsField: UIScrollView {
     }
 
     open func unselectAllTagViewsAnimated(_ animated: Bool = false) {
-        tagViews.forEach {
+        tagViews.filter { $0.selected }.forEach {
             $0.selected = false
             onDidUnselectTagView?(self, $0)
         }
