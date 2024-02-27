@@ -254,6 +254,9 @@ open class WSTagsField: UIScrollView {
 
     fileprivate var oldIntrinsicContentHeight: CGFloat = 0
 
+    fileprivate var layingOutSubviews: Bool = false
+    fileprivate var needsAdditionalLayout: Bool = false
+
     fileprivate var estimatedInitialMaxLayoutWidth: CGFloat {
         // Workaround: https://stackoverflow.com/questions/42342402/how-can-i-create-a-view-has-intrinsiccontentsize-just-like-uilabel
         // "So how the system knows the label's width so that it can calculate the height before layoutSubviews"
@@ -332,8 +335,18 @@ open class WSTagsField: UIScrollView {
     }
 
     open override func layoutSubviews() {
+        guard !layingOutSubviews else {
+            needsAdditionalLayout = true
+            return
+        }
+        layingOutSubviews = true
         super.layoutSubviews()
         repositionViews()
+        layingOutSubviews = false
+        if needsAdditionalLayout {
+            needsAdditionalLayout = false
+            layoutSubviews()
+        }
     }
     
     /// Set corner radius of tag views
